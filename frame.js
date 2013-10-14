@@ -798,7 +798,7 @@ function Frame(x,y,width,height,attr,parent) {
 				var s = str.join('');
 				var match = s.match(cReg);
 				if(match) {
-					properties.curr_attr = ch + match[0];
+					properties.curr_attr += ch + match[0];
 				}
 				else {
 					match = s.match(aReg);
