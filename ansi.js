@@ -1,50 +1,49 @@
-/* ANSI colors */
-module.exports.fg = {
-	black:'\033[30m',
-	red:'\033[31m',
-	green:'\033[32m',
-	yellow:'\033[33m',
-	blue:'\033[34m',
-	magenta:'\033[35m',
-	cyan:'\033[36m',
-	lightgray:'\033[37m',
-	darkgray:'\033[30;1m',
-	lightred:'\033[31;1m',
-	lightgreen:'\033[32;1m',
-	lightyellow:'\033[33;1m',
-	lightblue:'\033[34;1m',
-	lightmagenta:'\033[35;1m',
-	lightcyan:'\033[36;1m',
-	white:'\033[37;1m',
-};
-module.exports.bg = {
-	black:'\033[40m',
-	red:'\033[41m',
-	green:'\033[42m',
-	yellow:'\033[43m',
-	blue:'\033[44m',
-	magenta:'\033[45m',
-	cyan:'\033[46m',
-	white:'\033[47m',
-};
-module.exports.normal = '\033[0m';
-
-
 /* internal variables */
 var csi = '\033[';
+var attributes = undefined;
 var xy = {};
 
+/* ANSI colors */
+var fg = {
+	black:csi+'30m',
+	red:csi+'31m',
+	green:csi+'32m',
+	yellow:csi+'33m',
+	blue:csi+'34m',
+	magenta:csi+'35m',
+	cyan:csi+'36m',
+	lightgray:csi+'37m',
+	darkgray:csi+'30;1m',
+	lightred:csi+'31;1m',
+	lightgreen:csi+'32;1m',
+	lightyellow:csi+'33;1m',
+	lightblue:csi+'34;1m',
+	lightmagenta:csi+'35;1m',
+	lightcyan:csi+'36;1m',
+	white:csi+'37;1m',
+};
+var bg = {
+	black:csi+'40m',
+	red:csi+'41m',
+	green:csi+'42m',
+	yellow:csi+'43m',
+	blue:csi+'44m',
+	magenta:csi+'45m',
+	cyan:csi+'46m',
+	white:csi+'47m',
+};
+var normal = csi+'0m';
 
 /* functions */
 function gotoxy(x,y) {
-	process.stdout.write('\033['+x+';'+y+'H');
+	process.stdout.write(csi+y+';'+x+'H');
 }
 function getxy() {
-	process.stdout.write('\033[6n');
+	process.stdout.write(csi+'6n');
 }
 function pushxy(name,x,y) {
 	if(!name) {
-		process.stdout.write('\033[s');
+		process.stdout.write(csi+'s');
 	}
 	else if(x && y) {
 		xy[name.toLowerCase()] = {x:x,y:y};
@@ -52,35 +51,47 @@ function pushxy(name,x,y) {
 }
 function popxy(name) {
 	if(!name) {
-		process.stdout.write('\033[u');
+		process.stdout.write(csi+'u');
 	}
 	else if(xy[name.toLowerCase()]){
 		gotoxy(xy[name.toLowerCase()].x,xy[name.toLowerCase()].y);
 	}
 }
 function ins(n) {
-	process.stdout.write('\033['+n+'@');
+	process.stdout.write(csi+n+'@');
 }
 function del(n) {
-	process.stdout.write('\033['+n+'P');
+	process.stdout.write(csi+n+'P');
 }
 function right(n) {
-	process.stdout.write('\033['+n+'C');
+	process.stdout.write(csi+n+'C');
 }
 function left(n) {
-	process.stdout.write('\033['+n+'D');
+	process.stdout.write(csi+n+'D');
 }
 function up(n) {
-	process.stdout.write('\033['+n+'A');
+	process.stdout.write(csi+n+'A');
 }
 function down(n) {
-	process.stdout.write('\033['+n+'B');
+	process.stdout.write(csi+n+'B');
 }
 function clear() {
-	process.stdout.write('\033[0J');
+	process.stdout.write(csi+'0J');
+}
+function cleartoeol() {
+	process.stdout.write(csi+'0K');
+}
+function home() {
+	gotoxy(1,1);
+}
+function write(str) {
+	process.stdout.write(str);
+}
+function strlen(str) {
+	return str.replace(/\033(s|u|\d+[ABCDJKLMPSTXZn]|\d+(;\d\d?)?[Hfm])/g,'').length;
 }
 
-/* export that shit */
+/* methods */
 module.exports.gotoxy = gotoxy;
 module.exports.getxy = getxy;
 module.exports.pushxy = pushxy;
@@ -92,3 +103,22 @@ module.exports.right = right;
 module.exports.ins = ins;
 module.exports.del = del;
 module.exports.clear = clear;
+module.exports.cleartoeol = cleartoeol;
+module.exports.home = home;
+module.exports.write = write;
+module.exports.strlen = strlen;
+
+/* colors */
+module.exports.fg = fg;
+module.exports.bg = bg;
+module.exports.normal = normal;
+
+/* attributes */
+module.exports.__defineSetter__("attributes",function(attr) {
+	if(attr !== undefined)
+		process.stdout.write(attr);
+	attributes = attr;
+});
+module.exports.__defineGetter__("attributes",function() {
+	return attributes;
+});
