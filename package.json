@@ -1,7 +1,7 @@
 {
 	"name": "node-ansi",
 	"description": "utility for displaying ANSI color and handling CSI screen interactions",
-	"version": "1.0",
+	"version": "1.0.0",
 	"author": {
 		"name": "Matt Johnson",
 		"email": "mdj1979@gmail.com"
