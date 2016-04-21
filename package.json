@@ -1,0 +1,22 @@
+{
+	"name": "node-ansi",
+	"description": "utility for displaying ANSI color and handling CSI screen interactions",
+	"version": "1.0",
+	"author": {
+		"name": "Matt Johnson",
+		"email": "mdj1979@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/mcmlxxix/node-ansi.git"
+	},
+	"bugs": {
+		"url": "https://github.com/mcmlxxix/node-ansi/issues"
+	},
+	"licenses": [{
+		"type": "GNU",
+		"url": "https://github.com/mcmlxxix/node-ansi/LICENSE"
+	}],
+	"main": "./ansi",
+	"keywords": ["utility", "ansi", "csi", "curses", "console"]
+}
