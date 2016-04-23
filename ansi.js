@@ -1,6 +1,7 @@
 /* internal variables */
 var csi = '\033[';
 var attributes = undefined;
+var output = process.stdout.write;
 var xy = {};
 
 /* ANSI colors */
@@ -36,14 +37,14 @@ var normal = csi+'0m';
 
 /* functions */
 function gotoxy(x,y) {
-	process.stdout.write(csi+y+';'+x+'H');
+	output(csi+y+';'+x+'H');
 }
 function getxy() {
-	process.stdout.write(csi+'6n');
+	output(csi+'6n');
 }
 function pushxy(name,x,y) {
 	if(!name) {
-		process.stdout.write(csi+'s');
+		output(csi+'s');
 	}
 	else if(x && y) {
 		xy[name.toLowerCase()] = {x:x,y:y};
@@ -51,41 +52,41 @@ function pushxy(name,x,y) {
 }
 function popxy(name) {
 	if(!name) {
-		process.stdout.write(csi+'u');
+		output(csi+'u');
 	}
 	else if(xy[name.toLowerCase()]){
 		gotoxy(xy[name.toLowerCase()].x,xy[name.toLowerCase()].y);
 	}
 }
 function ins(n) {
-	process.stdout.write(csi+n+'@');
+	output(csi+n+'@');
 }
 function del(n) {
-	process.stdout.write(csi+n+'P');
+	output(csi+n+'P');
 }
 function right(n) {
-	process.stdout.write(csi+n+'C');
+	output(csi+n+'C');
 }
 function left(n) {
-	process.stdout.write(csi+n+'D');
+	output(csi+n+'D');
 }
 function up(n) {
-	process.stdout.write(csi+n+'A');
+	output(csi+n+'A');
 }
 function down(n) {
-	process.stdout.write(csi+n+'B');
+	output(csi+n+'B');
 }
 function clear() {
-	process.stdout.write(csi+'0J');
+	output(csi+'0J');
 }
 function cleartoeol() {
-	process.stdout.write(csi+'0K');
+	output(csi+'0K');
 }
 function home() {
 	gotoxy(1,1);
 }
 function write(str) {
-	process.stdout.write(str);
+	output(str);
 }
 function strlen(str) {
 	return str.replace(/\033(s|u|\d+[ABCDJKLMPSTXZn]|\d+(;\d\d?)?[Hfm])/g,'').length;
@@ -116,9 +117,22 @@ module.exports.normal = normal;
 /* attributes */
 module.exports.__defineSetter__("attributes",function(attr) {
 	if(attr !== undefined)
-		process.stdout.write(attr);
+		output(attr);
 	attributes = attr;
 });
 module.exports.__defineGetter__("attributes",function() {
 	return attributes;
+});
+module.exports.__defineSetter__("output",function(func) {
+	if(typeof func == function)
+		output = func;
+	else if(func instanceof Array)
+		output = func.push;
+	else if(typeof func == "string")
+		output = function(str) {
+			func += str;
+		};
+});
+module.exports.__defineGetter__("output",function() {
+	return output;
 });
