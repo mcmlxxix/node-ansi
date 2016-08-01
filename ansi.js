@@ -1,7 +1,7 @@
 /* internal variables */
 var csi = '\033[';
 var attributes = undefined;
-var output = process.stdout.write;
+var output = process.stdout.write.bind(process.stdout);
 var xy = {};
 
 /* ANSI colors */
@@ -124,7 +124,7 @@ module.exports.__defineGetter__("attributes",function() {
 	return attributes;
 });
 module.exports.__defineSetter__("output",function(func) {
-	if(typeof func == function)
+	if(typeof func == 'function')
 		output = func;
 	else if(func instanceof Array)
 		output = func.push;
