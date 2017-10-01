@@ -1,16 +1,15 @@
-node-ansi
-=========
+# node-ansi
 
 ANSI CSI library for node.js
 
 ---
 
-CSI API:
+## CSI API
 	
-	this library contains the necessary methods to use ANSI positioning and coloring
-	in a node.js application. 
+This library contains the necessary methods to use ANSI positioning and coloring
+in a node.js application. 
 	
-PROPERTIES:
+### Properties
 	
 	/* foreground colors */
 	fg:
@@ -28,21 +27,23 @@ PROPERTIES:
 	/* attribute (writes to stdout) getter/setter */
 	attributes
 
-METHODS:
+### Methods
 
-	gotoxy(x,y)		// go to screen position x,y
-	getxy()			// return current screen position (broken)
-	pushxy(name,x,y)	// store current position (optional name)
-	popxy(name)		// restore saved position (optional name)
-	up(n)			// move cursor up n spaces
-	down(n)			// move cursor down n spaces
-	left(n)			// move cursor left n spaces
-	right(n)		// move cursor right n spaces
-	ins(n)			// insert n spaces
-	del(n)			// delete n spaces
-	clear()			// clear the screen
-	cleartoeol()		// clear to the end of the line
-	home()			// goto x=1, y=1
-	write(str)		// output a string to stdout
-	strlen(str)		// return the length of a string minus ANSI codes
+	gotoxy(x,y)        // go to screen position x,y
+	getxy()            // return current screen position (broken)
+	pushxy(name,x,y)   // store current position (no arguments)
+	                   // or save x,y under the given name
+	popxy(name)        // restore saved position (no arguments)
+	                   // or restore x,y from given name
+	up(n)              // move cursor up n spaces
+	down(n)            // move cursor down n spaces
+	left(n)            // move cursor left n spaces
+	right(n)           // move cursor right n spaces
+	ins(n)             // insert n spaces
+	del(n)             // delete n spaces
+	clear()            // clear the screen
+	cleartoeol()       // clear to the end of the line
+	home()             // goto x=1, y=1
+	write(str)         // output a string to stdout
+	strlen(str)        // return the length of a string minus ANSI codes
 
