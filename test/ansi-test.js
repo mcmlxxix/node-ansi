@@ -40,6 +40,19 @@ csi.down(6);
 csi.attributes = csi.bg.blue;
 csi.cleartoeol();
 
+csi.attributes = csi.bg.black;
+csi.gotoxy(3,5);
+
+// Check if CSI is supported by overwriting the “not” if it works
+var text = 'SCP not supported';
+csi.pushxy();
+csi.write( text );
+csi.down(1);
+csi.left(text.length);
+csi.write('SCP = Store Cursor Position');
+csi.popxy();
+csi.right('SCP'.length);
+csi.write(' -->');
+
 /* move cursor out of the way and reset colors */
 csi.gotoxy(1,20);
-csi.attributes = csi.bg.black;
