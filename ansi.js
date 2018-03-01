@@ -38,9 +38,9 @@ var normal = csi+'0m';
 /* functions */
 function gotoxy(x,y,clear) {
 	output(csi+y+';'+x+'H');
-  if (clear) {
-    cleartoeol();
-  }
+	if (clear) {
+		cleartoeol();
+	}
 }
 function getxy() {
 	output(csi+'6n');
