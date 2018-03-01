@@ -4,6 +4,11 @@ var csi = require('../ansi');
 csi.attributes = csi.bg.green;
 csi.clear();
 
+/* should see 2 $$ sign only at x:40 y:15 */
+csi.gotoxy(40,15);
+csi.write("$$$$$$$");
+csi.gotoxy(42,15,true);
+
 /* move cursor to x:40, y:10 */
 csi.gotoxy(40,10);
 
